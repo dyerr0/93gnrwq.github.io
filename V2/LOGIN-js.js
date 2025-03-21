@@ -27,22 +27,9 @@ document.addEventListener('DOMContentLoaded', function(){
     sessionStorage.setItem('folio', folio);
   }
   folioField.textContent = folio;
-  var partsData = {
-    "LINEA 6": {
-      "6LY0A": ["SUB1", "SUB2", "SUB3"]
-    },
-    "LINEA 8": {
-      "6KH0A": ["SUB1"],
-      "6KH0B": ["SUB1", "SUB2"],
-      "6KH0C": ["SUB1"],
-      "6KH0D": ["SUB1"],
-      "6KH0E": ["SUB1"],
-      "9WD0B": ["SUB1"],
-      "9WD0E": ["SUB1"]
-    }
-  };
+
   function populateLineaSelect(){
-    lineaSelect.innerHTML = '<option value="" disabled selected>Select Linea</option>';
+    lineaSelect.innerHTML = '<option value="" disabled selected>Seleccion...</option>';
     Object.keys(partsData).forEach(function(l){
       var opt = document.createElement('option');
       opt.value = l;
@@ -50,38 +37,39 @@ document.addEventListener('DOMContentLoaded', function(){
       lineaSelect.appendChild(opt);
     });
   }
-  function populatePartNumbers(linea){
-    partNumberSelect.innerHTML = '<option value="" disabled selected>Select Part Number</option>';
-    if(partsData[linea]){
-      Object.keys(partsData[linea]).forEach(function(part){
-        var opt = document.createElement('option');
-        opt.value = part;
-        opt.textContent = part;
-        partNumberSelect.appendChild(opt);
-      });
-      partNumberSelect.disabled = false;
-    } else {
-      partNumberSelect.disabled = true;
-    }
+function populatePartNumbers(linea) {
+  partNumberSelect.innerHTML = '<option value="" disabled selected>Seleccion...</option>';
+  if (partsData[linea]) {
+    Object.keys(partsData[linea]).forEach(function(part) {
+      var opt = document.createElement('option');
+      opt.value = part;
+      // Se muestra el número de parte y la versión (nivel)
+      opt.textContent = part + ' (NIVEL ' + partsData[linea][part].version + ')';
+      partNumberSelect.appendChild(opt);
+    });
+    partNumberSelect.disabled = false;
+  } else {
+    partNumberSelect.disabled = true;
   }
-  function populateEstaciones(linea, part){
-    estacionSelect.innerHTML = '<option value="" disabled selected>Select Estacion</option>';
-    if(partsData[linea] && partsData[linea][part]){
-      partsData[linea][part].forEach(function(est){
-        var opt = document.createElement('option');
-        opt.value = est;
-        opt.textContent = est;
-        estacionSelect.appendChild(opt);
-      });
-      estacionSelect.disabled = false;
-    } else {
-      estacionSelect.disabled = true;
-    }
+}
+function populateEstaciones(linea, part) {
+  estacionSelect.innerHTML = '<option value="" disabled selected>Seleccion...</option>';
+  if (partsData[linea] && partsData[linea][part]) {
+    partsData[linea][part].stations.forEach(function(est) {
+      var opt = document.createElement('option');
+      opt.value = est;
+      opt.textContent = est;
+      estacionSelect.appendChild(opt);
+    });
+    estacionSelect.disabled = false;
+  } else {
+    estacionSelect.disabled = true;
   }
+}
   populateLineaSelect();
-  partNumberSelect.innerHTML = '<option value="" disabled selected>Select Part Number</option>';
+  partNumberSelect.innerHTML = '<option value="" disabled selected>Bloqueado...</option>';
   partNumberSelect.disabled = true;
-  estacionSelect.innerHTML = '<option value="" disabled selected>Select Estacion</option>';
+  estacionSelect.innerHTML = '<option value="" disabled selected>Bloqueado...</option>';
   estacionSelect.disabled = true;
   var savedUserId = sessionStorage.getItem('userId'),
       savedUserName = sessionStorage.getItem('userName'),

@@ -1,4 +1,4 @@
-const devMode = false;
+const devMode = true;
 const timeLimit = 180;
 
 let lockPosition = {
@@ -19,20 +19,26 @@ const urlLinea = segments[segments.length - 5];
 const urlPartNumber = segments[segments.length - 4] + " " + segments[segments.length - 3].split('.')[0];
 
 window.onload = function () {
-    let linea, partNumber;
+    let linea, partNumber, estacion;
     if (!devMode) {
-        if (!sessionStorage.getItem('linea') || !sessionStorage.getItem('partNumber')) {
+        if (!sessionStorage.getItem('linea') || 
+            !sessionStorage.getItem('partNumber') || 
+            !sessionStorage.getItem('estacion')) {
             redirectToLogin();
             return;
         }
         linea = sessionStorage.getItem('linea');
         partNumber = sessionStorage.getItem('partNumber');
+        estacion = sessionStorage.getItem('estacion');
+    let nuevoPartNumber = partNumber + " - " + estacion;
+    
+    document.getElementById('page-heading').textContent = linea + " - " + nuevoPartNumber;
     } else {
         linea = urlLinea;
         partNumber = urlPartNumber;
+        document.getElementById('page-heading').textContent = linea + " - " + partNumber;
     }
-    document.getElementById('page-heading').textContent = linea + " - " + partNumber;
-
+    
     const currentPath = window.location.pathname;
     const currentFileName = currentPath.split('/').pop();
     const stepIndex = parseInt(currentFileName.match(/PASO_(\d+)/)[1]);
