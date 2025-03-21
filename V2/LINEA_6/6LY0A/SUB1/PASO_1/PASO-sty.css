@@ -19,8 +19,8 @@ h1 {
 }
 .connector {
   position: relative;
-  width: 460px;
-  height: 260px;
+  width: 500px;
+  height: 275px;
   margin: 0 auto;
   background-color: #012;
   border-radius: 12px;
@@ -58,10 +58,10 @@ h1 {
 }
 .lock-container {
   position: absolute;
-  bottom: 5px;
+  bottom: 10px;
   left: 5px;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
